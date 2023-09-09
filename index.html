@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Result</title>
+<style>
+	*{box-sizing: border-box;margin: 0;padding: 0;}
+</style>
+<!-- <script src="app.js"></script> -->
+</head>
+<body>
+	<div class="container">
+		<div class="form-grp">
+			<label for="name">Nane</label>
+			<input type="text" name="name" id="name">
+			<span class="error-msg" id="nameErr"></span>
+			<p id="name1"></p>
+		</div>
+		<!-- <div class="form-grp">
+			<label for="email">Nane</label>
+			<input type="text" name="email" id="email">
+			<span class="error-msg"></span>
+		</div> -->
+		<button onclick="">Get data</button>
+	</div>
+	<script>
+		function getData(){
+			//new Promise
+			const newpromise = new Promise((resolve,reject) =>{
+				//Create a xmlhttpRequest object.
+				const xhr = new XMLHttpRequest();
+				//Open the request
+				xhr.open('get', 'https://jsonplaceholder.typicode.com/posts');
+
+				// Setting a response type.
+				xhr.responseType = 'json';
+				
+				xhr.onload = function () {
+					resolve(xhr.response);
+				}
+				xhr.send();
+
+			});
+			return newpromise;
+		}
+		getData().then((res)=>{
+			console.log(res);
+		}).catch((err) =>{
+			console.log(err);
+		});
+
+		async function printData(){
+			const listOfPosts = await getData();
+			console.log(listOfPosts);
+		}
+
+
+		const name = document.getElementById("name");
+		name.addEventListener('blur',($event)=>{
+			if(event.target.value == "" || event.target.value == null){
+				const nameerr = document.getElementById("nameErr");
+				nameerr.innerHTML = `Name cannot be empty`;
+			}
+			else
+			{
+				alert("hi");
+				const name1 = document.getElementById("name1");
+				name1.innerHTML = $event.target.value;
+				//nameerr.innerHTML = `name is ${event.target.value}`;
+			}
+		});
+	</script>
+	<script src="ajax.js"></script>
+</body>
+</html>
